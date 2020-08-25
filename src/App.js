@@ -33,7 +33,26 @@ client.on("message", (channel, tags, message, self) => {
 });
 
 
+const App = () => {
+  return <Main>
+  <BallHolder>
+    <Ball   
+      animate={{
+        y: [-5, 5],
+      }}
+      transition={{
+        duration: 2,
+        ease: "easeInOut",
+        times: [0, 0.2, 0.5, 0.8, 1],
+        loop: Infinity,
+        repeatDelay: 1
+      }}>
+      <BallShadow />
+      <Window animate={true} />
+    </Ball>
+    </BallHolder>
+  </Main>;
+};
 
-
-
-
+export default App;
+export { getResponse }
