@@ -2,6 +2,9 @@ import React from "react";
 import tmi from "tmi.js";
 import responses from './responses'
 
+
+import { Main, BallHolder, Ball, BallShadow, Window } from './App.style'
+
 const getResponse = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 }
@@ -31,11 +34,6 @@ client.on("message", (channel, tags, message, self) => {
 
 
 
-const App = () => {
-  return <main>
-    <h1>P4nth3rBall!</h1>
-  </main>;
-};
 
-export default App;
-export { getResponse }
+
+
