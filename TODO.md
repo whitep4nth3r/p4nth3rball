@@ -1,6 +1,7 @@
 # TODO
 
-- [ ] Return a random P4nth3rBall reply to users who say '!ball'
+- [*] Return a random P4nth3rBall reply to users who say '!ball'
+
 - [ ] Build the P4nth3rBall
   - [ ] Main shape
   - [ ] Shake animation

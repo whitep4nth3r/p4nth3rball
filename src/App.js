@@ -1,5 +1,10 @@
 import React from "react";
 import tmi from "tmi.js";
+import responses from './responses'
+
+const getResponse = () => {
+  return responses[Math.floor(Math.random() * responses.length)];
+}
 
 const client = new tmi.Client({
   options: { debug: true },
@@ -20,12 +25,17 @@ client.on("message", (channel, tags, message, self) => {
   if (self) return;
 
   if (message.toLowerCase() === "!ball") {
-    client.say(channel, `@${tags.username}, balls to you too!`);
+    client.say(channel, `@${tags.username}, ${getResponse()}`);
   }
 });
 
+
+
 const App = () => {
-  return <main></main>;
+  return <main>
+    <h1>P4nth3rBall!</h1>
+  </main>;
 };
 
 export default App;
+export { getResponse }
