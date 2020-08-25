@@ -11,7 +11,8 @@ import {
   Window, 
   PantherHolder, 
   CurrentPlayerTitle, 
-  CurrentPlayerName
+  CurrentPlayerName,
+  RandomResponse
  } from './App.style'
 
  const getBallResponse = () => {
@@ -40,14 +41,22 @@ const App = () => {
 
   const [currentPlayer, setCurrentPlayer] = useState('!ball');
   const [rolling, setRolling ] = useState(false);
+  const [randomResponse, setrandomResponse ] = useState('!ball');
 
   useEffect(() => { 
     client.on("message", (channel, tags, message, self) => {
       if (self) return;
     
       if (message.toLowerCase() === "!ball") {
-        client.say(channel, `@${tags.username}, ${getBallResponse()}`);
+        setRolling(true);
         setCurrentPlayer(tags.username);
+        const randomResponse = getBallResponse();
+
+        setTimeout(() => {
+          client.say(channel, `@${tags.username}, ${randomResponse}`);
+          setrandomResponse(randomResponse)
+          setRolling(false);
+        }, 5000)
       }
     });
   }, [])
@@ -73,6 +82,7 @@ const App = () => {
     <CurrentPlayer>
       <CurrentPlayerTitle>Current player</CurrentPlayerTitle>
       <CurrentPlayerName>{currentPlayer}</CurrentPlayerName>
+      <RandomResponse>{randomResponse}</RandomResponse>
     </CurrentPlayer>
     </BallHolder>
   </Main>;

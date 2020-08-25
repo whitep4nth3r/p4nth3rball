@@ -102,6 +102,7 @@ const PantherHolder = styled.span`
 const CurrentPlayer = styled.div`
     position: absolute;
     top: 60%;
+    width: 80%;
     background-color: rgba(255, 182, 38, 0.9);
     padding: 1rem;
     border-radius: 1rem;
@@ -123,6 +124,14 @@ const CurrentPlayerName = styled.h1`
     color: #0F101A;
 `
 
+const RandomResponse = styled.p`
+    font-weight: 400;
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #0F101A;
+`
+
 export { 
   Main, 
   BallHolder, 
@@ -131,6 +140,7 @@ export {
   PantherHolder, 
   CurrentPlayer, 
   CurrentPlayerTitle, 
-  CurrentPlayerName
+  CurrentPlayerName,
+  RandomResponse
  }
 
