@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import tmi from "tmi.js";
 import responses from './responses'
-import PantherSvgs from './PantherSvgs'
 
 import { 
   Main, 
