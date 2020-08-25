@@ -6,7 +6,7 @@
 - [ ] Build the P4nth3rBall
   - [*] Main shape
   - [ ] Shake animation
-  - [ ] Roll animation - cycle through panthers
+  - [*] Roll animation - cycle through panthers
   - [ ] Finish animation
   - [ ] Show message after shake finishes
   - [ ] Show username on the P4nth3rBall when it is rolling

@@ -1,14 +1,30 @@
-import styled, { keyframes }  from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 import { motion } from "framer-motion";
-import cool from './panthers/cool.png';
-import dolla from './panthers/dolla.png';
-import heart from './panthers/heart.png';
-import lol from './panthers/lol.png';
-import majick from './panthers/majick.png';
-import pewpew from './panthers/pewpew.png';
-import sleep from './panthers/sleep.png';
-import star from './panthers/star.png';
+import PantherSvgs from './PantherSvgs'
 
+const pantherCycle = keyframes`
+  0% {
+    content: ${PantherSvgs.majick};
+  }
+  16% {
+    content: ${PantherSvgs.pewpew};
+  }
+  32% {
+    content: ${PantherSvgs.lol};
+  }
+  48% {
+    content: ${PantherSvgs.star};
+  }
+  64% {
+    content: ${PantherSvgs.dolla};
+  }
+  80% {
+    content: ${PantherSvgs.heart};
+  }
+  100% {
+    content: ${PantherSvgs.cool};
+  }
+`
 
 const Main = styled.main`
   position: relative;
@@ -47,7 +63,7 @@ const Ball = styled(motion.figure)`
   }
 
   &:after {
-    content: "";
+    content: '';
     width: 100%;
     height: 100%;
     position: absolute;
@@ -77,23 +93,19 @@ const Window = styled.span`
   border-radius: 50%;
   transform: translateX(68px) translateY(-60px) skewX(15deg) skewY(2deg);
   position: absolute;
+`
 
-  &:before {
-    content: '';
+const PantherHolder = styled.span`
+    content: ${PantherSvgs.majick};
     display: block;
     position: absolute;
-    text-align: center;
+    left: 8px;
+    top: 14px;
     height: 80px;
     width: 100px;
-    left: 50px;
-    margin-left: -40px;
-    top: 44px;
-    margin-top: -40px;
     color: black;
-    font-family: Arial;
-    font-size: 90px;
-    line-height: 104px;
-  }
+    animation: ${props => (props.animating === true ? css`${pantherCycle} 0.5s ease-in-out infinite forwards` : '')} ;
 `
-export { Main, BallHolder, Ball, BallShadow, Window }
+
+export { Main, BallHolder, Ball, BallShadow, Window, PantherHolder }
 

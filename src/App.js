@@ -1,9 +1,11 @@
 import React from "react";
 import tmi from "tmi.js";
 import responses from './responses'
+import PantherSvgs from './PantherSvgs'
 
+import { Main, BallHolder, Ball, BallShadow, Window, PantherHolder } from './App.style'
 
-import { Main, BallHolder, Ball, BallShadow, Window } from './App.style'
+console.log(PantherSvgs);
 
 const getResponse = () => {
   return responses[Math.floor(Math.random() * responses.length)];
@@ -32,23 +34,23 @@ client.on("message", (channel, tags, message, self) => {
   }
 });
 
-
 const App = () => {
   return <Main>
   <BallHolder>
     <Ball   
       animate={{
-        y: [-5, 5],
+        y: [0, 20, 0]
       }}
       transition={{
         duration: 2,
         ease: "easeInOut",
-        times: [0, 0.2, 0.5, 0.8, 1],
+        times: [0, 0.5, 1],
         loop: Infinity,
-        repeatDelay: 1
-      }}>
-      <BallShadow />
-      <Window animate={true} />
+      }}
+      >
+      <Window>
+        <PantherHolder animating={true}/>
+      </Window>
     </Ball>
     </BallHolder>
   </Main>;
