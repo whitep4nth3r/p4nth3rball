@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import tmi from "tmi.js";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const client = new tmi.Client({
+  options: { debug: true },
+  connection: {
+    secure: true,
+    reconnect: true,
+  },
+  identity: {
+    username: "p4nth3rb0t",
+    password: process.env.REACT_APP_TMI_AUTH,
+  },
+  channels: ["whitep4nth3r"],
+});
+
+client.connect();
+
+client.on("message", (channel, tags, message, self) => {
+  if (self) return;
+
+  if (message.toLowerCase() === "!ball") {
+    client.say(channel, `@${tags.username}, balls to you too!`);
+  }
+});
+
+const App = () => {
+  return <main></main>;
+};
 
 export default App;
