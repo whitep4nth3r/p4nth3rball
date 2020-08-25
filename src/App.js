@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import tmi from "tmi.js";
 import responses from './responses'
 import PantherSvgs from './PantherSvgs'
 
-import { Main, BallHolder, Ball, BallShadow, Window, PantherHolder } from './App.style'
+import { 
+  Main, 
+  BallHolder, 
+  Ball, 
+  CurrentPlayer, 
+  Window, 
+  PantherHolder, 
+  CurrentPlayerTitle, 
+  CurrentPlayerName
+ } from './App.style'
 
-console.log(PantherSvgs);
-
-const getResponse = () => {
+ const getBallResponse = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 }
+
+
 
 const client = new tmi.Client({
   options: { debug: true },
@@ -26,15 +35,23 @@ const client = new tmi.Client({
 
 client.connect();
 
-client.on("message", (channel, tags, message, self) => {
-  if (self) return;
-
-  if (message.toLowerCase() === "!ball") {
-    client.say(channel, `@${tags.username}, ${getResponse()}`);
-  }
-});
 
 const App = () => {
+
+  const [currentPlayer, setCurrentPlayer] = useState('!ball');
+  const [rolling, setRolling ] = useState(false);
+
+  useEffect(() => { 
+    client.on("message", (channel, tags, message, self) => {
+      if (self) return;
+    
+      if (message.toLowerCase() === "!ball") {
+        client.say(channel, `@${tags.username}, ${getBallResponse()}`);
+        setCurrentPlayer(tags.username);
+      }
+    });
+  }, [])
+
   return <Main>
   <BallHolder>
     <Ball   
@@ -49,12 +66,17 @@ const App = () => {
       }}
       >
       <Window>
-        <PantherHolder animating={true}/>
+        <PantherHolder animating={rolling}/>
       </Window>
     </Ball>
+
+    <CurrentPlayer>
+      <CurrentPlayerTitle>Current player</CurrentPlayerTitle>
+      <CurrentPlayerName>{currentPlayer}</CurrentPlayerName>
+    </CurrentPlayer>
     </BallHolder>
   </Main>;
 };
 
 export default App;
-export { getResponse }
+export { getBallResponse } 

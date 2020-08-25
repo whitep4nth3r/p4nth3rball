@@ -37,6 +37,7 @@ const BallHolder = styled.section`
   margin: 20px;
   perspective: 1200px;
   perspective-origin: 50% 50%;
+  position: relative;
 `
 
 const Ball = styled(motion.figure)`
@@ -76,15 +77,6 @@ const Ball = styled(motion.figure)`
   }
 `
 
-const BallShadow = styled.span`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0) 50%);
-  transform: rotateX(90deg) translateZ(-150px);
-  z-index: -1;
-`
-
 const Window = styled.span`
   width: 110px;
   height: 110px;
@@ -107,5 +99,38 @@ const PantherHolder = styled.span`
     animation: ${props => (props.animating === true ? css`${pantherCycle} 0.5s ease-in-out infinite forwards` : '')} ;
 `
 
-export { Main, BallHolder, Ball, BallShadow, Window, PantherHolder }
+const CurrentPlayer = styled.div`
+    position: absolute;
+    top: 60%;
+    background-color: rgba(255, 182, 38, 0.9);
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 6px 6px 10px 0 #000000
+`
+
+const CurrentPlayerTitle = styled.h2`
+    font-weight: 400;
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #ffffff;
+`
+
+const CurrentPlayerName = styled.h1`
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #0F101A;
+`
+
+export { 
+  Main, 
+  BallHolder, 
+  Ball, 
+  Window, 
+  PantherHolder, 
+  CurrentPlayer, 
+  CurrentPlayerTitle, 
+  CurrentPlayerName
+ }
 
