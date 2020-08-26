@@ -1,6 +1,1 @@
-export default [
-    'Yes!',
-    'Maybe!',
-    'No',
-    'Git off my lawn!'
-]
+export default ['Yes!', 'Maybe!', 'No', 'Git off my lawn!'];
