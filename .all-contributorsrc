@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "ryannhg",
+      "name": "Ryan Haskell-Glatz",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6187256?v=4",
+      "profile": "http://rhg.dev",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "p4nth3rball",
+  "projectOwner": "whitep4nth3r",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
