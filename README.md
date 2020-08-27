@@ -10,8 +10,8 @@ Because everyone needs more interactive Twitch stream games!
 Type `!ball` in chat.
 
 ---
-
-Built live on [twitch.tv/whitep4nth3r](https://twitch.tv/whitep4nth3r)
+Built live on [twitch.tv/whitep4nth3r](https://twitch.tv/whitep4nth3r) with help from the chat!
+---
 
 ## Contributors ✨
 
@@ -31,3 +31,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
