@@ -8,4 +8,4 @@ Type `!ball` in chat.
 
 ---
 
-Built live on [twitch.tv/whitep4nth3r](https://twitch.tv/whitep4nth3r)
+Built live on [twitch.tv/whitep4nth3r](https://twitch.tv/whitep4nth3r) with help from the chat!
