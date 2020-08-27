@@ -14,10 +14,6 @@ import {
   RandomResponse,
 } from './App.style';
 
-const getBallResponse = () => {
-  return responses[Math.floor(Math.random() * responses.length)];
-};
-
 const client = new tmi.Client({
   options: { debug: true },
   connection: {
@@ -33,24 +29,60 @@ const client = new tmi.Client({
 
 client.connect();
 
+const getBallResponse = () => {
+  return responses[Math.floor(Math.random() * responses.length)];
+};
+
+const gameStrings = {
+  playCommand: '!ball',
+  intro: 'Type !ball to roll',
+  currentPlayer: 'Current player',
+  rolling: 'Rolling...',
+  panelTitle: '',
+  ballResponse: '',
+  botResponsePrefix: 'The P4nth3rBall says',
+};
+
 const App = () => {
-  const [currentPlayer, setCurrentPlayer] = useState('!ball');
   const [rolling, setRolling] = useState(false);
-  const [randomResponse, setrandomResponse] = useState('!ball');
+  const [currentPlayer, setCurrentPlayer] = useState(gameStrings.intro);
+  const [panelTitle, setPanelTitle] = useState(gameStrings.panelTitle);
+  const [ballResponse, setBallResponse] = useState(gameStrings.ballResponse);
+
+  const resetGame = () => {
+    setCurrentPlayer(gameStrings.intro);
+    setPanelTitle(gameStrings.panelTitle);
+    setBallResponse(gameStrings.randomResponse);
+  };
+
+  const startGame = (username) => {
+    setRolling(true);
+    setPanelTitle(gameStrings.currentPlayer);
+    setBallResponse(gameStrings.rolling);
+    setCurrentPlayer(username);
+  };
+
+  const endGame = (channel, username, randomResponse) => {
+    client.say(
+      channel,
+      `@${username}: ${gameStrings.botResponsePrefix} ${randomResponse}`
+    );
+    setBallResponse(randomResponse);
+    setRolling(false);
+  };
 
   useEffect(() => {
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
 
-      if (message.toLowerCase() === '!ball') {
-        setRolling(true);
-        setCurrentPlayer(tags.username);
-        const randomResponse = getBallResponse();
+      if (message.toLowerCase() === gameStrings.playCommand) {
+        startGame(tags.username);
 
         setTimeout(() => {
-          client.say(channel, `@${tags.username}, ${randomResponse}`);
-          setrandomResponse(randomResponse);
-          setRolling(false);
+          endGame(channel, tags.username, getBallResponse());
+          setTimeout(() => {
+            resetGame();
+          }, 10000);
         }, 5000);
       }
     });
@@ -76,9 +108,9 @@ const App = () => {
         </Ball>
 
         <CurrentPlayer>
-          <CurrentPlayerTitle>Current player</CurrentPlayerTitle>
+          <CurrentPlayerTitle>{panelTitle}</CurrentPlayerTitle>
           <CurrentPlayerName>{currentPlayer}</CurrentPlayerName>
-          <RandomResponse>{randomResponse}</RandomResponse>
+          <RandomResponse>{ballResponse}</RandomResponse>
         </CurrentPlayer>
       </BallHolder>
     </Main>

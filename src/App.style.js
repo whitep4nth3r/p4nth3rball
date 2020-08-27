@@ -123,14 +123,14 @@ const CurrentPlayer = styled.div`
   top: 60%;
   width: 80%;
   background-color: rgba(255, 182, 38, 0.9);
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 1rem;
   box-shadow: 6px 6px 10px 0 #000000;
 `;
 
 const CurrentPlayerTitle = styled.h2`
-  font-weight: 400;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 0.8rem;
   margin-top: 0;
   margin-bottom: 0;
   color: #ffffff;
