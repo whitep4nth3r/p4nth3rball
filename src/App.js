@@ -33,14 +33,54 @@ const getBallResponse = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 };
 
+const config = {
+  channel: '#whitep4nth3r',
+};
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const gameStrings = {
   playCommand: '!ball',
-  intro: 'Type !ball to roll',
+  intro: 'Type !ball + question to roll',
   currentPlayer: 'Current player',
   rolling: 'Rolling...',
   panelTitle: '',
   ballResponse: '',
   botResponsePrefix: 'The P4nth3rBall says',
+};
+
+const resetGame = (setCurrentPlayer, setPanelTitle, setBallResponse) => {
+  setCurrentPlayer(gameStrings.intro);
+  setPanelTitle(gameStrings.panelTitle);
+  setBallResponse(gameStrings.randomResponse);
+};
+
+const startGame = (
+  setRolling,
+  setPanelTitle,
+  setBallResponse,
+  setCurrentPlayer,
+  user
+) => {
+  setRolling(true);
+  setPanelTitle(gameStrings.currentPlayer);
+  setBallResponse(gameStrings.rolling);
+  setCurrentPlayer(user);
+};
+
+const endGame = (
+  channel,
+  username,
+  randomResponse,
+  setBallResponse,
+  setRolling
+) => {
+  client.say(
+    channel,
+    `@${username}: ${gameStrings.botResponsePrefix} ${randomResponse}`
+  );
+  setBallResponse(randomResponse);
+  setRolling(false);
 };
 
 const App = () => {
@@ -49,43 +89,42 @@ const App = () => {
   const [panelTitle, setPanelTitle] = useState(gameStrings.panelTitle);
   const [ballResponse, setBallResponse] = useState(gameStrings.ballResponse);
 
-  const resetGame = () => {
-    setCurrentPlayer(gameStrings.intro);
-    setPanelTitle(gameStrings.panelTitle);
-    setBallResponse(gameStrings.randomResponse);
-  };
-
-  const startGame = (username) => {
-    setRolling(true);
-    setPanelTitle(gameStrings.currentPlayer);
-    setBallResponse(gameStrings.rolling);
-    setCurrentPlayer(username);
-  };
-
-  const endGame = (channel, username, randomResponse) => {
-    client.say(
-      channel,
-      `@${username}: ${gameStrings.botResponsePrefix} ${randomResponse}`
-    );
-    setBallResponse(randomResponse);
-    setRolling(false);
-  };
-
   useEffect(() => {
+    let ballQueue = [];
+
+    const ballRoll = async () => {
+      const user = ballQueue.shift();
+      startGame(
+        setRolling,
+        setPanelTitle,
+        setBallResponse,
+        setCurrentPlayer,
+        user
+      );
+      await wait(5000);
+      endGame(
+        config.channel,
+        user,
+        getBallResponse(),
+        setBallResponse,
+        setRolling
+      );
+      await wait(10000);
+      resetGame(setCurrentPlayer, setPanelTitle, setBallResponse);
+    };
+
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
-
-      if (message.toLowerCase() === gameStrings.playCommand) {
-        startGame(tags.username);
-
-        setTimeout(() => {
-          endGame(channel, tags.username, getBallResponse());
-          setTimeout(() => {
-            resetGame();
-          }, 10000);
-        }, 5000);
+      if (message.startsWith(gameStrings.playCommand)) {
+        ballQueue.push(tags.username);
       }
     });
+
+    setInterval(() => {
+      if (ballQueue.length > 0) {
+        ballRoll();
+      }
+    }, 16000);
   }, []);
 
   return (
