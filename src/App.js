@@ -83,6 +83,10 @@ const endGame = (
   setRolling(false);
 };
 
+const START_TIME_DELAY_MS = 5000;
+const END_GAME_DELAY_MS = 10000;
+const ROLL_DELAY_MS = 1000;
+
 const App = () => {
   const [rolling, setRolling] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState(gameStrings.intro);
@@ -91,8 +95,10 @@ const App = () => {
 
   useEffect(() => {
     let ballQueue = [];
-
+    let isBallRolling = false;
     const ballRoll = async () => {
+      if(isBallRolling) return ;
+      isBallRolling = true;
       const user = ballQueue.shift();
       startGame(
         setRolling,
@@ -101,7 +107,7 @@ const App = () => {
         setCurrentPlayer,
         user
       );
-      await wait(5000);
+      await wait(START_TIME_DELAY_MS);
       endGame(
         config.channel,
         user,
@@ -109,14 +115,19 @@ const App = () => {
         setBallResponse,
         setRolling
       );
-      await wait(10000);
+      await wait(END_GAME_DELAY_MS);
       resetGame(setCurrentPlayer, setPanelTitle, setBallResponse);
+      isBallRolling = false;
     };
 
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
       if (message.startsWith(gameStrings.playCommand)) {
+        const wasEmpty = !ballQueue.length;
         ballQueue.push(tags.username);
+        if (wasEmpty) {
+          ballRoll();
+        }
       }
     });
 
@@ -124,7 +135,7 @@ const App = () => {
       if (ballQueue.length > 0) {
         ballRoll();
       }
-    }, 16000);
+    }, ROLL_DELAY_MS);
   }, []);
 
   return (
