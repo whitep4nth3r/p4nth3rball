@@ -42,12 +42,6 @@ const config = {
 
 const emoteIds = ['425618', '88', '25', '86', '30259', '58765', '303380678'];
 
-const getRandomInt = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const gameStrings = {
@@ -98,7 +92,9 @@ const endGame = (
   setBallResponse(randomResponse);
   setRolling(false);
   setEmote(
-    `${config.emoteBaseUrl}${emoteIds[getRandomInt(0, emoteIds.length)]}/1.0`
+    `${config.emoteBaseUrl}${
+      emoteIds[Math.floor(Math.random() * emoteIds.length)]
+    }/1.0`
   );
 };
 
