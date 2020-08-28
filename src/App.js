@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import tmi from 'tmi.js';
-import responses from './responses';
+import config from './config';
+import emotes from './emotes';
+import Utils from './utils';
 
 import {
   Main,
@@ -12,6 +14,7 @@ import {
   CurrentPlayerTitle,
   CurrentPlayerName,
   RandomResponse,
+  Emote,
 } from './App.style';
 
 const client = new tmi.Client({
@@ -21,126 +24,83 @@ const client = new tmi.Client({
     reconnect: true,
   },
   identity: {
-    username: 'p4nth3rb0t',
+    username: config.botName,
     password: process.env.REACT_APP_TMI_AUTH,
   },
-  channels: ['whitep4nth3r'],
+  channels: config.integrations,
 });
 
 client.connect();
 
-const getBallResponse = () => {
-  return responses[Math.floor(Math.random() * responses.length)];
+const resetGame = (setCurrentPlayer, setPanelTitle, setBallResponse, setEmote) => {
+  setCurrentPlayer(config.gameStrings.intro);
+  setPanelTitle('');
+  setBallResponse(config.gameStrings.randomResponse);
+  setEmote('');
 };
 
-const config = {
-  channel: '#whitep4nth3r',
-};
-
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const gameStrings = {
-  playCommand: '!ball',
-  intro: 'Type !ball + question to roll',
-  currentPlayer: 'Current player',
-  rolling: 'Rolling...',
-  panelTitle: '',
-  ballResponse: '',
-  botResponsePrefix: 'The P4nth3rBall says',
-};
-
-const resetGame = (setCurrentPlayer, setPanelTitle, setBallResponse) => {
-  setCurrentPlayer(gameStrings.intro);
-  setPanelTitle(gameStrings.panelTitle);
-  setBallResponse(gameStrings.randomResponse);
-};
-
-const startGame = (
-  setRolling,
-  setPanelTitle,
-  setBallResponse,
-  setCurrentPlayer,
-  user
-) => {
+const startGame = (setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item) => {
   setRolling(true);
-  setPanelTitle(gameStrings.currentPlayer);
-  setBallResponse(gameStrings.rolling);
-  setCurrentPlayer(user);
+  setPanelTitle(config.gameStrings.currentPlayer);
+  setBallResponse(`Asking: ${item.message}`);
+  setCurrentPlayer(item.user);
 };
 
-const endGame = (
-  channel,
-  username,
-  randomResponse,
-  setBallResponse,
-  setRolling
-) => {
-  client.say(
-    channel,
-    `@${username}: ${gameStrings.botResponsePrefix} ${randomResponse}`
-  );
+const endGame = (channel, username, randomResponse, setBallResponse, setRolling, setEmote) => {
+  client.say(channel, `@${username}: ${config.gameStrings.botResponsePrefix} ${randomResponse}`);
   setBallResponse(randomResponse);
   setRolling(false);
+  setEmote(`${config.emoteBaseUrl}${emotes[Math.floor(Math.random() * emotes.length)]}/2.0`);
 };
 
-const START_TIME_DELAY_MS = 5000;
-const END_GAME_DELAY_MS = 10000;
-const ROLL_DELAY_MS = 1000;
+
 
 const App = () => {
   const [rolling, setRolling] = useState(false);
-  const [currentPlayer, setCurrentPlayer] = useState(gameStrings.intro);
-  const [panelTitle, setPanelTitle] = useState(gameStrings.panelTitle);
-  const [ballResponse, setBallResponse] = useState(gameStrings.ballResponse);
+  const [currentPlayer, setCurrentPlayer] = useState(config.gameStrings.intro);
+  const [panelTitle, setPanelTitle] = useState('');
+  const [ballResponse, setBallResponse] = useState('');
+  const [emote, setEmote] = useState('');
 
   useEffect(() => {
     let ballQueue = [];
-    let isBallRolling = false;
+
+    let isLockedBallRoll = false;
     const ballRoll = async () => {
-      if(isBallRolling) return ;
-      isBallRolling = true;
-      const user = ballQueue.shift();
-      startGame(
-        setRolling,
-        setPanelTitle,
-        setBallResponse,
-        setCurrentPlayer,
-        user
-      );
-      await wait(START_TIME_DELAY_MS);
+      if(isLockedBallRoll || !ballQueue.length) return;
+      isLockedBallRoll = true;
+      const item = ballQueue.shift();
+      startGame(setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item);
+      await Utils.wait(config.timings.ballRoll);
       endGame(
         config.channel,
-        user,
-        getBallResponse(),
+        item.user,
+        Utils.getBallResponse(),
         setBallResponse,
-        setRolling
+        setRolling,
+        setEmote
       );
-      await wait(END_GAME_DELAY_MS);
-      resetGame(setCurrentPlayer, setPanelTitle, setBallResponse);
-      isBallRolling = false;
+      await Utils.wait(config.timings.showResponse);
+      resetGame(setCurrentPlayer, setPanelTitle, setBallResponse, setEmote);
+      isLockedBallRoll = false;
     };
 
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
-      if (message.startsWith(gameStrings.playCommand)) {
-        const wasEmpty = !ballQueue.length;
-        ballQueue.push(tags.username);
-        if (wasEmpty) {
+      if (tags['custom-reward-id'] === config.ballRollReward) {
+        ballQueue.push({ user: tags.username, message });
+        if (ballQueue.length === 1) {
           ballRoll();
         }
       }
     });
 
-    setInterval(() => {
-      if (ballQueue.length > 0) {
-        ballRoll();
-      }
-    }, ROLL_DELAY_MS);
+    setInterval(ballRoll, config.timings.checkInterval);
   }, []);
 
   return (
     <Main>
-      <BallHolder>
+      <BallHolder rolling={rolling}>
         <Ball
           animate={{
             y: [0, 20, 0],
@@ -160,7 +120,11 @@ const App = () => {
         <CurrentPlayer>
           <CurrentPlayerTitle>{panelTitle}</CurrentPlayerTitle>
           <CurrentPlayerName>{currentPlayer}</CurrentPlayerName>
-          <RandomResponse>{ballResponse}</RandomResponse>
+          {ballResponse && (
+            <RandomResponse>
+              {ballResponse} {emote && <Emote src={emote} alt='Emote' />}
+            </RandomResponse>
+          )}
         </CurrentPlayer>
       </BallHolder>
     </Main>
@@ -168,4 +132,3 @@ const App = () => {
 };
 
 export default App;
-export { getBallResponse };
