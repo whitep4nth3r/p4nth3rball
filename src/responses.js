@@ -78,7 +78,11 @@ export default [
   'Let me have a loop',
   'The antidote is on its way',
   "You're not going to like the answer",
-  "Do you even kno what you're doing?",
+  "Do you even know what you're doing?",
   'That just made my ball hurt',
   'Mark as duplicate',
+  'Cannot predict now',
+  'My sources say no',
+  'Very doubtful',
+  'Signs point to yes',
 ];

@@ -95,7 +95,7 @@ const App = () => {
 
   return (
     <Main>
-      <BallHolder>
+      <BallHolder rolling={rolling}>
         <Ball
           animate={{
             y: [0, 20, 0],
