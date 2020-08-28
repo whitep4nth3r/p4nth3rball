@@ -6,9 +6,6 @@
 - [*] Display the question whilst rolling
 - [*] Add emotes to responses
 
-- [ ] Make ball jump up at set intervals to encourage rolls
-- [ ] Add more responses
-
 - [ ] Build the P4nth3rBall
   - [*] Main shape
   - [*] Roll animation - cycle through panthers
