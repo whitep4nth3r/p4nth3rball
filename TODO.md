@@ -2,10 +2,12 @@
 
 - [*] Return a random P4nth3rBall reply to users who say '!ball'
 - [*] Queue system for ball rolls
+- [*] Connect the requests to channel point redemptions
+- [*] Display the question whilst rolling
+
 - [ ] Make ball jump up at set intervals to encourage rolls
 - [ ] Add more responses
 - [ ] Add emotes to responses
-- [ ] Display the question whilst rolling
 
 - [ ] Build the P4nth3rBall
   - [*] Main shape

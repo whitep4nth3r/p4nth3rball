@@ -35,23 +35,22 @@ const getBallResponse = () => {
 
 const config = {
   channel: '#whitep4nth3r',
+  ballRollReward: '39b5d99f-a2d0-48f3-b6d6-89d022bb9b86',
 };
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const gameStrings = {
-  playCommand: '!ball',
-  intro: 'Type !ball + question to roll',
-  currentPlayer: 'Current player',
+  intro: 'Redeem Roll the P4nth3rBall to roll!',
   rolling: 'Rolling...',
-  panelTitle: '',
+  currentPlayer: 'Current player',
   ballResponse: '',
   botResponsePrefix: 'The P4nth3rBall says',
 };
 
 const resetGame = (setCurrentPlayer, setPanelTitle, setBallResponse) => {
   setCurrentPlayer(gameStrings.intro);
-  setPanelTitle(gameStrings.panelTitle);
+  setPanelTitle('');
   setBallResponse(gameStrings.randomResponse);
 };
 
@@ -60,12 +59,12 @@ const startGame = (
   setPanelTitle,
   setBallResponse,
   setCurrentPlayer,
-  user
+  item
 ) => {
   setRolling(true);
   setPanelTitle(gameStrings.currentPlayer);
-  setBallResponse(gameStrings.rolling);
-  setCurrentPlayer(user);
+  setBallResponse(`Asking: ${item.message}`);
+  setCurrentPlayer(item.user);
 };
 
 const endGame = (
@@ -86,25 +85,25 @@ const endGame = (
 const App = () => {
   const [rolling, setRolling] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState(gameStrings.intro);
-  const [panelTitle, setPanelTitle] = useState(gameStrings.panelTitle);
+  const [panelTitle, setPanelTitle] = useState('');
   const [ballResponse, setBallResponse] = useState(gameStrings.ballResponse);
 
   useEffect(() => {
     let ballQueue = [];
 
     const ballRoll = async () => {
-      const user = ballQueue.shift();
+      const item = ballQueue.shift();
       startGame(
         setRolling,
         setPanelTitle,
         setBallResponse,
         setCurrentPlayer,
-        user
+        item
       );
       await wait(5000);
       endGame(
         config.channel,
-        user,
+        item.user,
         getBallResponse(),
         setBallResponse,
         setRolling
@@ -115,8 +114,8 @@ const App = () => {
 
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
-      if (message.startsWith(gameStrings.playCommand)) {
-        ballQueue.push(tags.username);
+      if (tags['custom-reward-id'] === config.ballRollReward) {
+        ballQueue.push({ user: tags.username, message });
       }
     });
 
@@ -149,7 +148,7 @@ const App = () => {
         <CurrentPlayer>
           <CurrentPlayerTitle>{panelTitle}</CurrentPlayerTitle>
           <CurrentPlayerName>{currentPlayer}</CurrentPlayerName>
-          <RandomResponse>{ballResponse}</RandomResponse>
+          {ballResponse && <RandomResponse>{ballResponse}</RandomResponse>}
         </CurrentPlayer>
       </BallHolder>
     </Main>

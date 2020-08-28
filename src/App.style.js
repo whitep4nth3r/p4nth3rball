@@ -28,16 +28,19 @@ const pantherCycle = keyframes`
 
 const Main = styled.main`
   position: relative;
+  padding: 2rem;
 `;
 
 const BallHolder = styled.section`
   width: 300px;
   height: 300px;
   display: inline-block;
-  margin: 20px;
   perspective: 1200px;
   perspective-origin: 50% 50%;
   position: relative;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
 `;
 
 const Ball = styled(motion.figure)`
@@ -121,11 +124,12 @@ const PantherHolder = styled.span`
 const CurrentPlayer = styled.div`
   position: absolute;
   top: 60%;
-  width: 80%;
-  background-color: rgba(255, 182, 38, 0.9);
+  width: 100%;
+  background-color: rgba(255, 182, 38, 1);
   padding: 0.5rem 1rem;
   border-radius: 1rem;
-  box-shadow: 6px 6px 10px 0 #000000;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border: 0.25rem solid #0f101a;
 `;
 
 const CurrentPlayerTitle = styled.h2`
@@ -146,7 +150,7 @@ const CurrentPlayerName = styled.h1`
 const RandomResponse = styled.p`
   font-weight: 400;
   font-size: 1rem;
-  margin-top: 0;
+  margin-top: 1rem;
   margin-bottom: 0;
   color: #0f101a;
 `;

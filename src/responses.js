@@ -35,4 +35,8 @@ export default [
   'You only know, what you know',
   "Why didn't the number 4 get into the nightclub? Because he is 2 square.",
   'Only you can answer that question',
+  '[object Object]',
+  "Can't access null of undefined",
+  'NullReferenceException',
+  'NaN',
 ];
