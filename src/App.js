@@ -53,8 +53,6 @@ const endGame = (channel, username, randomResponse, setBallResponse, setRolling,
   setEmote(`${config.emoteBaseUrl}${emotes[Math.floor(Math.random() * emotes.length)]}/2.0`);
 };
 
-
-
 const App = () => {
   const [rolling, setRolling] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState(config.gameStrings.intro);
@@ -64,7 +62,6 @@ const App = () => {
 
   useEffect(() => {
     let ballQueue = [];
-
     let isLockedBallRoll = false;
     const ballRoll = async () => {
       if(isLockedBallRoll || !ballQueue.length) return;
