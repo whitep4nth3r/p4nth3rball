@@ -9,16 +9,16 @@ export default class Utils {
 
   static asyncLock = () => {
     const pending = [];
-    let isLock = false;
+    let isLocked = false;
     const lock = {
       acquire: () => {
-        if (isLock) {
+        if (isLocked) {
           return new Promise((resolve) => pending.push(resolve));
         }
-        isLock = true;
+        isLocked = true;
         return Promise.resolve();
       },
-      release: () => (isLock = !!pending.length) && pending.shift()(),
+      release: () => (isLocked = !!pending.length) && pending.shift()(),
       with: callback => async (...args) => {
         await lock.acquire();
         try {
