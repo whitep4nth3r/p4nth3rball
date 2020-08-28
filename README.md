@@ -1,17 +1,20 @@
 # P4nth3rBall!
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Because everyone needs more interactive Twitch stream games!
 
 ### To play P4nth3rBall!
 
-Type `!ball` in chat.
+Redeem the `Roll the P4nth3rBall!` reward in chat and ask the ball a question.
 
 ---
-Built live on [twitch.tv/whitep4nth3r](https://twitch.tv/whitep4nth3r) with help from the chat!
----
+
+## Built live on [twitch.tv/whitep4nth3r](https://twitch.tv/whitep4nth3r) with help from the chat!
 
 ## Contributors ✨
 
@@ -28,7 +31,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors)
+specification. Contributions of any kind welcome!
