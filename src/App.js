@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import tmi from 'tmi.js';
 import config from './config';
 import emotes from './emotes';
+import utils from "./utils";
 import Utils from './utils';
 
 import {
@@ -63,17 +64,6 @@ const App = () => {
   useEffect(() => {
     let ballQueue = [];
 
-    let isLockedBallRoll = false;
-    const lockedBallRoll = async() => {
-      if(isLockedBallRoll || !ballQueue.length) return;
-      isLockedBallRoll = true;
-      try{
-        await ballRoll();
-      }finally{
-        isLockedBallRoll = false;
-      }
-    };
-
     const ballRoll = async () => {
       const item = ballQueue.shift();
       startGame(setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item);
@@ -90,6 +80,9 @@ const App = () => {
       resetGame(setCurrentPlayer, setPanelTitle, setBallResponse, setEmote);
     };
 
+    const ballRollLock = utils.asyncLock();
+    const lockedBallRoll = ballRollLock.with(ballRoll);
+
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
       if (tags['custom-reward-id'] === config.ballRollReward) {
@@ -98,7 +91,6 @@ const App = () => {
       }
     });
 
-    setInterval(lockedBallRoll, config.timings.checkInterval);
   }, []);
 
   return (
