@@ -10,4 +10,9 @@ export default {
     currentPlayer: 'Current player',
     botResponsePrefix: 'The P4nth3rBall says',
   },
+  timings: {
+      ballRoll: 5000,
+      showResponse: 10000,
+      checkInterval: 16000
+  }
 };

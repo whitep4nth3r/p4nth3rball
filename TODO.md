@@ -11,5 +11,5 @@
   - [*] Roll animation - cycle through panthers
   - [*] Show username on the P4nth3rBall when it is rolling
   - [*] Show message after shake finishes
-  - [ ] Shake animation
+  - [*] Shake animation
   - [ ] Finish animation

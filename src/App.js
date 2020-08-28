@@ -50,7 +50,7 @@ const endGame = (channel, username, randomResponse, setBallResponse, setRolling,
   client.say(channel, `@${username}: ${config.gameStrings.botResponsePrefix} ${randomResponse}`);
   setBallResponse(randomResponse);
   setRolling(false);
-  setEmote(`${config.emoteBaseUrl}${emotes[Math.floor(Math.random() * emotes.length)]}/1.0`);
+  setEmote(`${config.emoteBaseUrl}${emotes[Math.floor(Math.random() * emotes.length)]}/2.0`);
 };
 
 const App = () => {
@@ -66,7 +66,7 @@ const App = () => {
     const ballRoll = async () => {
       const item = ballQueue.shift();
       startGame(setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item);
-      await Utils.wait(5000);
+      await Utils.wait(config.timings.ballRoll);
       endGame(
         config.channel,
         item.user,
@@ -75,7 +75,7 @@ const App = () => {
         setRolling,
         setEmote
       );
-      await Utils.wait(10000);
+      await Utils.wait(config.timings.showResponse);
       resetGame(setCurrentPlayer, setPanelTitle, setBallResponse, setEmote);
     };
 
@@ -90,7 +90,7 @@ const App = () => {
       if (ballQueue.length > 0) {
         ballRoll();
       }
-    }, 16000);
+    }, config.timings.checkInterval);
   }, []);
 
   return (

@@ -175,6 +175,7 @@ const RandomResponse = styled.p`
 
 const Emote = styled.img`
   margin-left: 0.5rem;
+  height: 1.5rem;
 `;
 
 export {
