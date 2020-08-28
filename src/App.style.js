@@ -130,6 +130,7 @@ const CurrentPlayer = styled.div`
   border-radius: 1rem;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   border: 0.25rem solid #0f101a;
+  z-index: 2;
 `;
 
 const CurrentPlayerTitle = styled.h2`
@@ -153,6 +154,12 @@ const RandomResponse = styled.p`
   margin-top: 1rem;
   margin-bottom: 0;
   color: #0f101a;
+  display: flex;
+  align-items: center;
+`;
+
+const Emote = styled.img`
+  margin-left: 0.5rem;
 `;
 
 export {
@@ -165,4 +172,5 @@ export {
   CurrentPlayerTitle,
   CurrentPlayerName,
   RandomResponse,
+  Emote,
 };

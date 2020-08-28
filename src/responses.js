@@ -39,4 +39,6 @@ export default [
   "Can't access null of undefined",
   'NullReferenceException',
   'NaN',
+  'Undefined is not a function',
+  '404 Not Found',
 ];

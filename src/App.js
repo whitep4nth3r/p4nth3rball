@@ -12,6 +12,7 @@ import {
   CurrentPlayerTitle,
   CurrentPlayerName,
   RandomResponse,
+  Emote,
 } from './App.style';
 
 const client = new tmi.Client({
@@ -36,6 +37,15 @@ const getBallResponse = () => {
 const config = {
   channel: '#whitep4nth3r',
   ballRollReward: '39b5d99f-a2d0-48f3-b6d6-89d022bb9b86',
+  emoteBaseUrl: 'https://static-cdn.jtvnw.net/emoticons/v1/',
+};
+
+const emoteIds = ['425618', '88', '25', '86', '30259', '58765', '303380678'];
+
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
 };
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -48,10 +58,16 @@ const gameStrings = {
   botResponsePrefix: 'The P4nth3rBall says',
 };
 
-const resetGame = (setCurrentPlayer, setPanelTitle, setBallResponse) => {
+const resetGame = (
+  setCurrentPlayer,
+  setPanelTitle,
+  setBallResponse,
+  setEmote
+) => {
   setCurrentPlayer(gameStrings.intro);
   setPanelTitle('');
   setBallResponse(gameStrings.randomResponse);
+  setEmote('');
 };
 
 const startGame = (
@@ -72,7 +88,8 @@ const endGame = (
   username,
   randomResponse,
   setBallResponse,
-  setRolling
+  setRolling,
+  setEmote
 ) => {
   client.say(
     channel,
@@ -80,6 +97,9 @@ const endGame = (
   );
   setBallResponse(randomResponse);
   setRolling(false);
+  setEmote(
+    `${config.emoteBaseUrl}${emoteIds[getRandomInt(0, emoteIds.length)]}/1.0`
+  );
 };
 
 const App = () => {
@@ -87,6 +107,7 @@ const App = () => {
   const [currentPlayer, setCurrentPlayer] = useState(gameStrings.intro);
   const [panelTitle, setPanelTitle] = useState('');
   const [ballResponse, setBallResponse] = useState(gameStrings.ballResponse);
+  const [emote, setEmote] = useState('');
 
   useEffect(() => {
     let ballQueue = [];
@@ -106,10 +127,11 @@ const App = () => {
         item.user,
         getBallResponse(),
         setBallResponse,
-        setRolling
+        setRolling,
+        setEmote
       );
       await wait(10000);
-      resetGame(setCurrentPlayer, setPanelTitle, setBallResponse);
+      resetGame(setCurrentPlayer, setPanelTitle, setBallResponse, setEmote);
     };
 
     client.on('message', (channel, tags, message, self) => {
@@ -148,7 +170,11 @@ const App = () => {
         <CurrentPlayer>
           <CurrentPlayerTitle>{panelTitle}</CurrentPlayerTitle>
           <CurrentPlayerName>{currentPlayer}</CurrentPlayerName>
-          {ballResponse && <RandomResponse>{ballResponse}</RandomResponse>}
+          {ballResponse && (
+            <RandomResponse>
+              {ballResponse} {emote && <Emote src={emote} alt="Emote" />}
+            </RandomResponse>
+          )}
         </CurrentPlayer>
       </BallHolder>
     </Main>
