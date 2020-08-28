@@ -62,10 +62,19 @@ const App = () => {
 
   useEffect(() => {
     let ballQueue = [];
+
     let isLockedBallRoll = false;
-    const ballRoll = async () => {
+    const lockedBallRoll = async() => {
       if(isLockedBallRoll || !ballQueue.length) return;
       isLockedBallRoll = true;
+      try{
+        await ballRoll();
+      }finally{
+        isLockedBallRoll = false;
+      }
+    };
+
+    const ballRoll = async () => {
       const item = ballQueue.shift();
       startGame(setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item);
       await Utils.wait(config.timings.ballRoll);
@@ -79,20 +88,17 @@ const App = () => {
       );
       await Utils.wait(config.timings.showResponse);
       resetGame(setCurrentPlayer, setPanelTitle, setBallResponse, setEmote);
-      isLockedBallRoll = false;
     };
 
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
       if (tags['custom-reward-id'] === config.ballRollReward) {
         ballQueue.push({ user: tags.username, message });
-        if (ballQueue.length === 1) {
-          ballRoll();
-        }
+        lockedBallRoll();
       }
     });
 
-    setInterval(ballRoll, config.timings.checkInterval);
+    setInterval(lockedBallRoll, config.timings.checkInterval);
   }, []);
 
   return (
