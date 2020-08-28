@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import tmi from 'tmi.js';
-import responses from './responses';
+import config from './config';
+import emotes from './emotes';
+import Utils from './utils';
 
 import {
   Main,
@@ -22,87 +24,40 @@ const client = new tmi.Client({
     reconnect: true,
   },
   identity: {
-    username: 'p4nth3rb0t',
+    username: config.botName,
     password: process.env.REACT_APP_TMI_AUTH,
   },
-  channels: ['whitep4nth3r'],
+  channels: config.integrations,
 });
 
 client.connect();
 
-const getBallResponse = () => {
-  return responses[Math.floor(Math.random() * responses.length)];
-};
-
-const config = {
-  channel: '#whitep4nth3r',
-  ballRollReward: '39b5d99f-a2d0-48f3-b6d6-89d022bb9b86',
-  emoteBaseUrl: 'https://static-cdn.jtvnw.net/emoticons/v1/',
-};
-
-const emoteIds = ['425618', '88', '25', '86', '30259', '58765', '303380678'];
-
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const gameStrings = {
-  intro: 'Redeem Roll the P4nth3rBall to roll!',
-  rolling: 'Rolling...',
-  currentPlayer: 'Current player',
-  ballResponse: '',
-  botResponsePrefix: 'The P4nth3rBall says',
-};
-
-const resetGame = (
-  setCurrentPlayer,
-  setPanelTitle,
-  setBallResponse,
-  setEmote
-) => {
-  setCurrentPlayer(gameStrings.intro);
+const resetGame = (setCurrentPlayer, setPanelTitle, setBallResponse, setEmote) => {
+  setCurrentPlayer(config.gameStrings.intro);
   setPanelTitle('');
-  setBallResponse(gameStrings.randomResponse);
+  setBallResponse(config.gameStrings.randomResponse);
   setEmote('');
 };
 
-const startGame = (
-  setRolling,
-  setPanelTitle,
-  setBallResponse,
-  setCurrentPlayer,
-  item
-) => {
+const startGame = (setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item) => {
   setRolling(true);
-  setPanelTitle(gameStrings.currentPlayer);
+  setPanelTitle(config.gameStrings.currentPlayer);
   setBallResponse(`Asking: ${item.message}`);
   setCurrentPlayer(item.user);
 };
 
-const endGame = (
-  channel,
-  username,
-  randomResponse,
-  setBallResponse,
-  setRolling,
-  setEmote
-) => {
-  client.say(
-    channel,
-    `@${username}: ${gameStrings.botResponsePrefix} ${randomResponse}`
-  );
+const endGame = (channel, username, randomResponse, setBallResponse, setRolling, setEmote) => {
+  client.say(channel, `@${username}: ${config.gameStrings.botResponsePrefix} ${randomResponse}`);
   setBallResponse(randomResponse);
   setRolling(false);
-  setEmote(
-    `${config.emoteBaseUrl}${
-      emoteIds[Math.floor(Math.random() * emoteIds.length)]
-    }/1.0`
-  );
+  setEmote(`${config.emoteBaseUrl}${emotes[Math.floor(Math.random() * emotes.length)]}/1.0`);
 };
 
 const App = () => {
   const [rolling, setRolling] = useState(false);
-  const [currentPlayer, setCurrentPlayer] = useState(gameStrings.intro);
+  const [currentPlayer, setCurrentPlayer] = useState(config.gameStrings.intro);
   const [panelTitle, setPanelTitle] = useState('');
-  const [ballResponse, setBallResponse] = useState(gameStrings.ballResponse);
+  const [ballResponse, setBallResponse] = useState('');
   const [emote, setEmote] = useState('');
 
   useEffect(() => {
@@ -110,23 +65,17 @@ const App = () => {
 
     const ballRoll = async () => {
       const item = ballQueue.shift();
-      startGame(
-        setRolling,
-        setPanelTitle,
-        setBallResponse,
-        setCurrentPlayer,
-        item
-      );
-      await wait(5000);
+      startGame(setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item);
+      await Utils.wait(5000);
       endGame(
         config.channel,
         item.user,
-        getBallResponse(),
+        Utils.getBallResponse(),
         setBallResponse,
         setRolling,
         setEmote
       );
-      await wait(10000);
+      await Utils.wait(10000);
       resetGame(setCurrentPlayer, setPanelTitle, setBallResponse, setEmote);
     };
 
@@ -168,7 +117,7 @@ const App = () => {
           <CurrentPlayerName>{currentPlayer}</CurrentPlayerName>
           {ballResponse && (
             <RandomResponse>
-              {ballResponse} {emote && <Emote src={emote} alt="Emote" />}
+              {ballResponse} {emote && <Emote src={emote} alt='Emote' />}
             </RandomResponse>
           )}
         </CurrentPlayer>
@@ -178,4 +127,3 @@ const App = () => {
 };
 
 export default App;
-export { getBallResponse };

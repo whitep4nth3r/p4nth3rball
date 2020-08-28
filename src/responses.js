@@ -63,7 +63,7 @@ export default [
   "My therapist says it's fiiiiiinnnnne!",
   'Um, no!',
   'I think not',
-  'return responses[Math.floor(Math.random() * responses.length)]',
+  'return responses[ Math.floor(Math.random() * responses.length) ]',
   'What an idiot',
   'getBallResponse()',
   'Perfect',

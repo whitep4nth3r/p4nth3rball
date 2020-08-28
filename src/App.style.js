@@ -138,7 +138,7 @@ const CurrentPlayerTitle = styled.h2`
   font-size: 0.8rem;
   margin-top: 0;
   margin-bottom: 0;
-  color: #ffffff;
+  color: #0f101a;
 `;
 
 const CurrentPlayerName = styled.h1`
