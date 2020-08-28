@@ -62,10 +62,8 @@ const App = () => {
   const [emote, setEmote] = useState('');
 
   useEffect(() => {
-    let ballQueue = [];
 
-    const ballRoll = async () => {
-      const item = ballQueue.shift();
+    const ballRoll = async item => {
       startGame(setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item);
       await Utils.wait(config.timings.ballRoll);
       endGame(
@@ -86,8 +84,7 @@ const App = () => {
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
       if (tags['custom-reward-id'] === config.ballRollReward) {
-        ballQueue.push({ user: tags.username, message });
-        lockedBallRoll();
+        lockedBallRoll({ user: tags.username, message });
       }
     });
 
