@@ -8,10 +8,10 @@ export default {
     intro: 'Redeem Roll the P4nth3rBall to roll!',
     rolling: 'Rolling...',
     currentPlayer: 'Current player',
-    botResponsePrefix: 'The P4nth3rBall says',
+    botResponsePrefix: 'The P4nth3rBall says: ',
   },
   timings: {
-      ballRoll: 5000,
-      showResponse: 10000
-  }
+    ballRoll: 5000,
+    showResponse: 10000,
+  },
 };
