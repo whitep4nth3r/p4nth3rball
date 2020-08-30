@@ -13,6 +13,6 @@ export default {
   timings: {
     ballRoll: 5000,
     showResponse: 10000,
-    checkInterval: 16000,
+    timeBetweenRolls: 16000,
   },
 };
