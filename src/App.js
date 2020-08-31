@@ -32,25 +32,49 @@ const client = new tmi.Client({
 
 client.connect();
 
-const resetGame = (setCurrentPlayer, setPanelTitle, setBallResponse, setEmote) => {
+const resetGame = (
+  setCurrentPlayer,
+  setPanelTitle,
+  setBallResponse,
+  setEmote
+) => {
   setCurrentPlayer(config.gameStrings.intro);
   setPanelTitle('');
   setBallResponse(config.gameStrings.randomResponse);
   setEmote('');
 };
 
-const startGame = (setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item) => {
+const startGame = (
+  setRolling,
+  setPanelTitle,
+  setBallResponse,
+  setCurrentPlayer,
+  item
+) => {
   setRolling(true);
   setPanelTitle(config.gameStrings.currentPlayer);
   setBallResponse(`Asking: ${item.message}`);
   setCurrentPlayer(item.user);
 };
 
-const endGame = (channel, username, randomResponse, setBallResponse, setRolling, setEmote) => {
-  client.say(channel, `@${username}: ${config.gameStrings.botResponsePrefix} ${randomResponse}`);
+const endGame = (
+  channel,
+  username,
+  randomResponse,
+  setBallResponse,
+  setRolling,
+  setEmote
+) => {
+  const randomEmote = emotes[Math.floor(Math.random() * emotes.length)];
+
+  client.say(
+    channel,
+    `@${username}: ${config.gameStrings.botResponsePrefix} ${randomResponse} ${randomEmote.string}`
+  );
+
   setBallResponse(randomResponse);
   setRolling(false);
-  setEmote(`${config.emoteBaseUrl}${emotes[Math.floor(Math.random() * emotes.length)]}/2.0`);
+  setEmote(`${config.emoteBaseUrl}${randomEmote.id}/2.0`);
 };
 
 const App = () => {
@@ -64,7 +88,13 @@ const App = () => {
     let ballQueue = Utils.Queue(config.timings.timeBetweenRolls);
 
     const ballRoll = async (item) => {
-      startGame(setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item);
+      startGame(
+        setRolling,
+        setPanelTitle,
+        setBallResponse,
+        setCurrentPlayer,
+        item
+      );
       await Utils.wait(config.timings.ballRoll);
       endGame(
         config.channel,
@@ -81,7 +111,7 @@ const App = () => {
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
       if (tags['custom-reward-id'] === config.ballRollReward) {
-        ballQueue.push(_ => ballRoll({ user: tags.username, message }));
+        ballQueue.push((_) => ballRoll({ user: tags.username, message }));
       }
     });
   }, []);
@@ -110,7 +140,7 @@ const App = () => {
           <CurrentPlayerName>{currentPlayer}</CurrentPlayerName>
           {ballResponse && (
             <RandomResponse>
-              {ballResponse} {emote && <Emote src={emote} alt='Emote' />}
+              {ballResponse} {emote && <Emote src={emote} alt="Emote" />}
             </RandomResponse>
           )}
         </CurrentPlayer>

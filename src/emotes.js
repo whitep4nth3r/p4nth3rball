@@ -1,13 +1,38 @@
 export default [
-  '425618',
-  '88',
-  '25',
-  '86',
-  '30259',
-  '58765',
-  '303380678',
-  '28087',
-  '300179548',
-  '303006622',
-  '1547903',
+  {
+    id: '425618',
+    string: 'LUL',
+  },
+  {
+    id: '88',
+    string: 'PogChamp',
+  },
+  {
+    id: '25',
+    string: 'Kappa',
+  },
+  {
+    id: '86',
+    string: 'BibleThump',
+  },
+  {
+    id: '30259',
+    string: 'HeyGuys',
+  },
+  {
+    id: '58765',
+    string: 'NotLikeThis',
+  },
+  {
+    id: '28087',
+    string: 'WutFace',
+  },
+  {
+    id: '555555584',
+    string: '<3',
+  },
+  {
+    id: '41',
+    string: 'Kreygasm',
+  },
 ];
