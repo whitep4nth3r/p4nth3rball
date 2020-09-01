@@ -85,4 +85,5 @@ export default [
   'My sources say no',
   'Very doubtful',
   'Signs point to yes',
+  's/\\?$/\\./',
 ];
