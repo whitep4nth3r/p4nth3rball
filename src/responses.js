@@ -86,4 +86,5 @@ export default [
   'Very doubtful',
   'Signs point to yes',
   's/\\?$/\\./',
+  'I think the answer can be found at: lmgtfy.com',
 ];
