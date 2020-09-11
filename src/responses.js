@@ -87,4 +87,6 @@ export default [
   'Signs point to yes',
   's/\\?$/\\./',
   'I think the answer can be found at: lmgtfy.com',
+  'What do computers and air conditioners have in common? They both become useless when you open windows.',
+  'You look lovely today, is that a plane in the sky? The question of life is hard to know, just in case, 42 is the answer.'
 ];
