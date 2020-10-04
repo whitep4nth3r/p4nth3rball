@@ -89,5 +89,6 @@ export default [
   'I think the answer can be found at: lmgtfy.com',
   "!false - It's funny because it's true.",
   'What do computers and air conditioners have in common? They both become useless when you open windows.',
-  'You look lovely today, is that a plane in the sky? The question of life is hard to know, just in case, 42 is the answer.'
+  "You've just got to YEET it",
+  'You look lovely today, is that a plane in the sky? The question of life is hard to know, just in case, 42 is the answer.',
 ];
