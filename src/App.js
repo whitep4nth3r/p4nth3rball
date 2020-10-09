@@ -69,7 +69,7 @@ const endGame = (
 
   client.say(
     channel,
-    `@${username}: ${config.gameStrings.botResponsePrefix} ${randomResponse} ${randomEmote.string}`
+    `@${username} ${config.gameStrings.botResponsePrefix} ${randomResponse} ${randomEmote.string}`
   );
 
   setBallResponse(randomResponse);
