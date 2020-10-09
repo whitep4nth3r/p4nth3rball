@@ -22,6 +22,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "chinanwu",
+      "name": "Salmon Wu",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/40319887?v=4",
+      "profile": "http://chinanwu.com",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
