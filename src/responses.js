@@ -91,4 +91,6 @@ export default [
   'What do computers and air conditioners have in common? They both become useless when you open windows.',
   "You've just got to YEET it",
   'You look lovely today, is that a plane in the sky? The question of life is hard to know, just in case, 42 is the answer.',
+  'You already know the answer in your heart ♥',
+
 ];
