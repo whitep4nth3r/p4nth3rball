@@ -4,10 +4,6 @@ export default [
     string: 'LUL',
   },
   {
-    id: '88',
-    string: 'PogChamp',
-  },
-  {
     id: '25',
     string: 'Kappa',
   },
