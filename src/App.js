@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import tmi from 'tmi.js';
-import config from './config';
-import emotes from './emotes';
-import Utils from './utils';
+import React, { useState, useEffect } from "react";
+import tmi from "tmi.js";
+import config from "./config";
+import emotes from "./emotes";
+import Utils from "./utils";
 
 import {
   Main,
@@ -15,7 +15,7 @@ import {
   CurrentPlayerName,
   RandomResponse,
   Emote,
-} from './App.style';
+} from "./App.style";
 
 const client = new tmi.Client({
   options: { debug: true },
@@ -32,39 +32,21 @@ const client = new tmi.Client({
 
 client.connect();
 
-const resetGame = (
-  setCurrentPlayer,
-  setPanelTitle,
-  setBallResponse,
-  setEmote
-) => {
+const resetGame = (setCurrentPlayer, setPanelTitle, setBallResponse, setEmote) => {
   setCurrentPlayer(config.gameStrings.intro);
-  setPanelTitle('');
+  setPanelTitle("");
   setBallResponse(config.gameStrings.randomResponse);
-  setEmote('');
+  setEmote("");
 };
 
-const startGame = (
-  setRolling,
-  setPanelTitle,
-  setBallResponse,
-  setCurrentPlayer,
-  item
-) => {
+const startGame = (setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item) => {
   setRolling(true);
   setPanelTitle(config.gameStrings.currentPlayer);
   setBallResponse(`Asking: ${item.message}`);
   setCurrentPlayer(item.user);
 };
 
-const endGame = (
-  channel,
-  username,
-  randomResponse,
-  setBallResponse,
-  setRolling,
-  setEmote
-) => {
+const endGame = (channel, username, randomResponse, setBallResponse, setRolling, setEmote) => {
   const randomEmote = emotes[Math.floor(Math.random() * emotes.length)];
 
   client.say(
@@ -80,21 +62,15 @@ const endGame = (
 const App = () => {
   const [rolling, setRolling] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState(config.gameStrings.intro);
-  const [panelTitle, setPanelTitle] = useState('');
-  const [ballResponse, setBallResponse] = useState('');
-  const [emote, setEmote] = useState('');
+  const [panelTitle, setPanelTitle] = useState("");
+  const [ballResponse, setBallResponse] = useState("");
+  const [emote, setEmote] = useState("");
 
   useEffect(() => {
     let ballQueue = Utils.Queue(config.timings.timeBetweenRolls);
 
     const ballRoll = async (item) => {
-      startGame(
-        setRolling,
-        setPanelTitle,
-        setBallResponse,
-        setCurrentPlayer,
-        item
-      );
+      startGame(setRolling, setPanelTitle, setBallResponse, setCurrentPlayer, item);
       await Utils.wait(config.timings.ballRoll);
       endGame(
         config.channel,
@@ -108,9 +84,11 @@ const App = () => {
       resetGame(setCurrentPlayer, setPanelTitle, setBallResponse, setEmote);
     };
 
-    client.on('message', (channel, tags, message, self) => {
+    client.on("message", (channel, tags, message, self) => {
+      console.log("ON MESSAGE");
       if (self) return;
-      if (tags['custom-reward-id'] === config.ballRollReward) {
+      console.log(tags["custom-reward-id"]);
+      if (tags["custom-reward-id"] === config.ballRollReward) {
         ballQueue.push((_) => ballRoll({ user: tags.username, message }));
       }
     });
@@ -125,7 +103,7 @@ const App = () => {
           }}
           transition={{
             duration: 2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             times: [0, 0.5, 1],
             loop: Infinity,
           }}

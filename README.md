@@ -1,17 +1,20 @@
-# P4nth3rBall!
+# P4nth3rBall: a Twitch-chat-powered interactive stream game
+
+![Play P4nth3rBall on my live coding Twitch streams](https://p4nth3rblog-og-image.vercel.app/Play%20P4nth3rBall%20on%20my%20live%20coding%20Twitch%20streams.png?theme=light&md=0&fontSize=80px&images=https%3A%2F%2Fp4nth3rlabs.netlify.app%2Fassets%2Fsvgs%2Fpanthers%2Fpewpew.svg)
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-Because everyone needs more interactive Twitch stream games!
+## To play P4nth3rBall
 
-### To play P4nth3rBall!
-
-Redeem Roll the P4nth3rBall in Twitch chat to roll!
+Redeem Roll the P4nth3rBall in Twitch chat, ask the ball a question, and wait for your answer!
 
 ---
-Built live on [twitch.tv/whitep4nth3r](https://twitch.tv/whitep4nth3r) with help from the chat!
----
+
+## Built live on [twitch.tv/whitep4nth3r](https://twitch.tv/whitep4nth3r)
 
 ## Contributors ✨
 
@@ -30,7 +33,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
