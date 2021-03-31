@@ -93,5 +93,7 @@ export default [
   'You look lovely today, is that a plane in the sky? The question of life is hard to know, just in case, 42 is the answer.',
   'You already know the answer in your heart ♥',
   "You might say that, I couldn't possibly comment",
-  'Squishy says "Hello! Yes! No! Maybe! You be the ruler of your destiny"'
+  'Your barking at the wrong millennium falcon!',
+  'Squishy says "Hello! Yes! No! Maybe! You be the ruler of your destiny"',
+  'Ye shall not pass!'
 ];
