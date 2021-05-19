@@ -96,5 +96,6 @@ export default [
   'You are barking at the wrong millennium falcon!',
   'Squishy says "Hello! Yes! No! Maybe! You be the ruler of your destiny"',
   'Ye shall not pass!',
-  "I'm not sure but I bet Michael knows. Follow BaldBeardedBuilder to find out."
+  "I'm not sure but I bet Michael knows. Follow BaldBeardedBuilder to find out.",
+  "Everything under the heavens is in utter chaos. The conditions are perfect."
 ];
