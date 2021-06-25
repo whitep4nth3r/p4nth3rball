@@ -104,4 +104,5 @@ export default [
   "I'm not sure but I bet Michael knows. Follow BaldBeardedBuilder to find out.",
   "Everything under the heavens is in utter chaos. The conditions are perfect.",
   "Midnight giz",
+  "I'm not as think as you drunk I am",
 ];
