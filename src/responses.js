@@ -106,4 +106,5 @@ export default [
   "Midnight giz",
   "I'm not as think as you drunk I am",
   "It's Hammer Time",
+  "This makes me exhausted",
 ];
