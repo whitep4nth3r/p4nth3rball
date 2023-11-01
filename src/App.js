@@ -51,7 +51,7 @@ const endGame = (channel, username, randomResponse, setBallResponse, setRolling,
 
   client.say(
     channel,
-    `@${username} ${config.gameStrings.botResponsePrefix} ${randomResponse} ${randomEmote.string}`
+    `@${username} ${config.gameStrings.botResponsePrefix} ${randomResponse} ${randomEmote.string}`,
   );
 
   setBallResponse(randomResponse);
@@ -78,7 +78,7 @@ const App = () => {
         Utils.getBallResponse(),
         setBallResponse,
         setRolling,
-        setEmote
+        setEmote,
       );
       await Utils.wait(config.timings.showResponse);
       resetGame(setCurrentPlayer, setPanelTitle, setBallResponse, setEmote);
@@ -96,20 +96,10 @@ const App = () => {
 
   return (
     <Main>
-      <BallHolder rolling={rolling}>
-        <Ball
-          animate={{
-            y: [0, 20, 0],
-          }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            times: [0, 0.5, 1],
-            loop: Infinity,
-          }}
-        >
+      <BallHolder data-rolling={rolling.toString()}>
+        <Ball>
           <Window>
-            <PantherHolder animating={rolling} />
+            <PantherHolder data-animating={rolling.toString()} />
           </Window>
         </Ball>
 

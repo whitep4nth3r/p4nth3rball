@@ -1,6 +1,5 @@
-import styled, { keyframes, css } from 'styled-components';
-import { motion } from 'framer-motion';
-import PantherSvgs from './PantherSvgs';
+import styled, { keyframes } from "styled-components";
+import PantherSvgs from "./PantherSvgs";
 
 const shake = keyframes`
   0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -55,15 +54,24 @@ const BallHolder = styled.section`
   display: flex;
   align-self: center;
   flex-direction: column;
-  animation: ${(props) =>
-    props.rolling === true
-      ? css`
-          ${shake} 0.5s ease-in-out infinite forwards
-        `
-      : ''};
+  &[data-rolling="true"] {
+    animation: ${shake} 0.5s ease-in-out infinite forwards;
+  }
 `;
 
-const Ball = styled(motion.figure)`
+const ballLevitate = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+const Ball = styled.figure`
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -71,9 +79,10 @@ const Ball = styled(motion.figure)`
   border-radius: 50%;
   position: relative;
   background: radial-gradient(circle at 50% 120%, #323232, #0a0a0a 80%, #000000 100%);
+  animation: ${ballLevitate} 3s ease-in-out infinite forwards;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     background: radial-gradient(
       circle at 50% 120%,
@@ -91,7 +100,7 @@ const Ball = styled(motion.figure)`
   }
 
   &:after {
-    content: '';
+    content: "";
     width: 100%;
     height: 100%;
     position: absolute;
@@ -128,12 +137,9 @@ const PantherHolder = styled.span`
   height: 80px;
   width: 100px;
   color: black;
-  animation: ${(props) =>
-    props.animating === true
-      ? css`
-          ${pantherCycle} 0.5s ease-in-out infinite forwards
-        `
-      : ''};
+  &[data-animating="true"] {
+    animation: ${pantherCycle} 0.5s ease-in-out infinite forwards;
+  }
 `;
 
 const CurrentPlayer = styled.div`
